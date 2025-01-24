@@ -11,10 +11,22 @@ import {
 import { 
   Home, 
   Users, 
-  Package, 
-  FileText, 
   Settings,
-  Building2
+  Building2,
+  FileText,
+  ShoppingCart,
+  Package,
+  Briefcase,
+  Ship,
+  DollarSign,
+  UserCheck,
+  Mail,
+  ClipboardList,
+  FileSearch,
+  Box,
+  CreditCard,
+  Truck,
+  Map
 } from "lucide-react";
 
 const menuItems = [
@@ -24,9 +36,39 @@ const menuItems = [
     url: "/",
   },
   {
-    title: "Customers",
+    title: "Tenant Management",
+    icon: Building2,
+    url: "/tenants",
+  },
+  {
+    title: "Board Management",
+    icon: Briefcase,
+    url: "/board",
+  },
+  {
+    title: "CHA Management",
+    icon: UserCheck,
+    url: "/cha",
+  },
+  {
+    title: "Freight & Charges",
+    icon: Ship,
+    url: "/freight",
+  },
+  {
+    title: "Employee Management",
+    icon: Users,
+    url: "/employees",
+  },
+  {
+    title: "Customer Management",
     icon: Users,
     url: "/customers",
+  },
+  {
+    title: "Enquiries & Actions",
+    icon: Mail,
+    url: "/enquiries",
   },
   {
     title: "Products",
@@ -37,6 +79,31 @@ const menuItems = [
     title: "Quotations",
     icon: FileText,
     url: "/quotations",
+  },
+  {
+    title: "Orders",
+    icon: ShoppingCart,
+    url: "/orders",
+  },
+  {
+    title: "Invoices",
+    icon: DollarSign,
+    url: "/invoices",
+  },
+  {
+    title: "Commercial Docs",
+    icon: ClipboardList,
+    url: "/commercial-docs",
+  },
+  {
+    title: "Packing",
+    icon: Box,
+    url: "/packing",
+  },
+  {
+    title: "Tracking",
+    icon: Map,
+    url: "/tracking",
   },
   {
     title: "Settings",
