@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order</title>
+    <style>
+        @media print {
+            @page {
+                margin: 0;
+            }
+            body {
+                margin: 1cm;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .company-info {
+            line-height: 1.5;
+        }
+        .po-details {
+            text-align: right;
+        }
+        .from-to {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .status {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .signature-area {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid #000;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()" style="position: fixed; top: 20px; right: 20px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Print</button>
+
+    <div class="header">
+        <div class="company-info">
+            <h2>TechSolutions Inc.</h2>
+            <p>123 Innovation Drive</p>
+            <p>Tech City, CA 94016</p>
+            <p>Phone: (555) 123-4567</p>
+            <p>Email: sales@techsolutions.com</p>
+        </div>
+        <div class="po-details">
+            <h1>PURCHASE ORDER</h1>
+            <p>PO Number: <span id="poNumber"></span></p>
+            <p>Date: <span id="poDate"></span></p>
+            <p>Status: <span id="poStatus"></span></p>
+        </div>
+    </div>
+
+    <div class="from-to">
+        <div>
+            <h3>Vendor:</h3>
+            <p>TechSolutions Inc.</p>
+            <p>123 Innovation Drive</p>
+            <p>Tech City, CA 94016</p>
+        </div>
+        <div>
+            <h3>Ship To:</h3>
+            <p id="customerName"></p>
+            <p id="customerType"></p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Custom Software Development Services</td>
+                <td>1</td>
+                <td>$<span id="unitPrice"></span></td>
+                <td>$<span id="totalPrice"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div>
+            <p>Notes:</p>
+            <p>Payment terms: Net 30 days</p>
+            <p>All services subject to our standard terms and conditions</p>
+        </div>
+        <div>
+            <div class="signature-area">
+                <p>Authorized Signature: _________________________</p>
+                <p>Date: _________________________</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            document.getElementById('poNumber').textContent = urlParams.get('orderNo');
+            document.getElementById('customerName').textContent = urlParams.get('customer').split('(')[0].trim();
+            document.getElementById('customerType').textContent = '(' + urlParams.get('customer').match(/\((.*?)\)/)[1] + ')';
+            
+            const date = new Date(urlParams.get('date'));
+            document.getElementById('poDate').textContent = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            const cost = parseFloat(urlParams.get('cost')).toFixed(2);
+            document.getElementById('unitPrice').textContent = cost;
+            document.getElementById('totalPrice').textContent = cost;
+            
+            const status = urlParams.get('status');
+            const statusElement = document.getElementById('poStatus');
+            statusElement.textContent = status;
+            statusElement.style.backgroundColor = getStatusColor(status);
+        };
+
+        function getStatusColor(status) {
+            switch(status.toLowerCase()) {
+                case 'approved': return '#d4edda';
+                case 'pending': return '#fff3cd';
+                case 'completed': return '#d1ecf1';
+                case 'cancelled': return '#f8d7da';
+                default: return '#f5f5f5';
+            }
+        }
+    </script>
+</body>
+</html>
