@@ -14,38 +14,44 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 
-const customerFormSchema = z.object({
-  companyName: z.string().min(2, "Company name must be at least 2 characters"),
-  contactPerson: z.string().min(2, "Contact person name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  address: z.string().min(10, "Address must be at least 10 characters"),
-  gstNumber: z.string().min(15, "GST number must be 15 characters"),
-  panNumber: z.string().min(10, "PAN number must be 10 characters"),
-  website: z.string().url().optional(),
+const freightFormSchema = z.object({
+  quotationNumber: z.string().min(1, "Quotation number is required"),
+  origin: z.string().min(1, "Origin is required"),
+  destination: z.string().min(1, "Destination is required"),
+  containerType: z.string().min(1, "Container type is required"),
+  rate: z
+    .string()
+    .regex(/^-?\d+(\.\d{1,2})?$/, "Rate must be a valid number"),
+  validityDate: z.string().optional(),
+  additionalCharges: z
+    .string()
+    .regex(/^-?\d+(\.\d{1,2})?$/, "Additional charges must be a valid number")
+    .optional(),
+  notes: z.string().optional(),
 });
 
-type CustomerFormValues = z.infer<typeof customerFormSchema>;
+type FreightFormValues = z.infer<typeof freightFormSchema>;
 
-export function CustomerForm() {
-  const form = useForm<CustomerFormValues>({
-    resolver: zodResolver(customerFormSchema),
+const FreightQuotationForm = () => {
+  const form = useForm<FreightFormValues>({
+    resolver: zodResolver(freightFormSchema),
     defaultValues: {
-      companyName: "",
-      contactPerson: "",
-      email: "",
-      phone: "",
-      address: "",
-      gstNumber: "",
-      panNumber: "",
-      website: "",
+      quotationNumber: "",
+      origin: "",
+      destination: "",
+      containerType: "",
+      rate: "",
+      validityDate: "",
+      additionalCharges: "",
+      notes: "",
     },
+    mode: "onTouched",
   });
 
-  function onSubmit(data: CustomerFormValues) {
+  function onSubmit(data: FreightFormValues) {
     toast({
-      title: "Customer Details Submitted",
-      description: "The customer information has been saved successfully.",
+      title: "Freight Quotation Submitted",
+      description: "The freight quotation has been saved successfully.",
     });
     console.log(data);
   }
@@ -56,12 +62,12 @@ export function CustomerForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
-            name="companyName"
+            name="quotationNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Name</FormLabel>
+                <FormLabel>Quotation Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter company name" {...field} />
+                  <Input placeholder="Enter quotation number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -70,12 +76,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="contactPerson"
+            name="origin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contact Person</FormLabel>
+                <FormLabel>Origin</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter contact person name" {...field} />
+                  <Input placeholder="Enter origin" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -84,12 +90,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="email"
+            name="destination"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Destination</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Enter email address" {...field} />
+                  <Input placeholder="Enter destination" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,12 +104,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="phone"
+            name="containerType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Container Type</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter phone number" {...field} />
+                  <Input placeholder="Enter container type" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,12 +118,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="address"
+            name="rate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Rate</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Enter complete address" {...field} />
+                  <Input type="number" step="0.01" placeholder="Enter rate" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,12 +132,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="gstNumber"
+            name="validityDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>GST Number</FormLabel>
+                <FormLabel>Validity Date</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter GST number" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -140,12 +146,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="panNumber"
+            name="additionalCharges"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>PAN Number</FormLabel>
+                <FormLabel>Additional Charges</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter PAN number" {...field} />
+                  <Input type="number" step="0.01" placeholder="Enter additional charges" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -154,12 +160,12 @@ export function CustomerForm() {
 
           <FormField
             control={form.control}
-            name="website"
+            name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Website</FormLabel>
+                <FormLabel>Notes</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter website URL" {...field} />
+                  <Textarea placeholder="Enter notes" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -168,9 +174,11 @@ export function CustomerForm() {
         </div>
 
         <Button type="submit" className="w-full md:w-auto">
-          Submit Customer Details
+          Submit Freight Quotation
         </Button>
       </form>
     </Form>
   );
-}
+};
+
+export default FreightQuotationForm;

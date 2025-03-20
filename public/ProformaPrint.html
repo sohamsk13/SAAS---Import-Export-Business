@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proforma Invoice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .invoice-container {
+            width: 90%;
+            margin: auto;
+            border: 1px solid #000;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+        }
+        textarea {
+            width: 100%;
+            height: 60px;
+            resize: none;
+            font-size: 14px;
+        }
+        .details-section td {
+            vertical-align: top;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        .note {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container" id="invoiceContent">
+        <div class="header">PROFORMA INVOICE</div>
+        <table class="table">
+            <tr>
+                <td rowspan="2" style="width: 50%;">
+                    <strong>Exporter:</strong><br>
+                    <textarea></textarea>
+                </td>
+                <td><strong>Invoice No:</strong> RKIE/2021-001</td>
+                <td><strong>Exporter Ref:</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Buyer's Order No:</strong> RK-USA001</td>
+                <td><strong>Date:</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Consignee:</strong><br>
+                    <textarea></textarea>
+                </td>
+                <td colspan="2"><strong>Other Reference:</strong></td>
+            </tr>
+        </table>
+        <table class="table details-section">
+            <tr>
+                <td><strong>Pre Carriage By:</strong></td>
+                <td>By Road / By Rail/ICD</td>
+                <td><strong>Placement of Receipt By Pre-Carrier:</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Country of Origin of Goods:</strong></td>
+                <td>India</td>
+                <td><strong>Country of Final Destination:</strong></td>
+                <td>Mauritius</td>
+            </tr>
+            <tr>
+                <td><strong>Vessel / Flight No:</strong></td>
+                <td></td>
+                <td><strong>Port of Loading:</strong></td>
+                <td>Any Port in India</td>
+            </tr>
+            <tr>
+                <td><strong>Port of Discharge:</strong></td>
+                <td>Port Luis (Mauritius)</td>
+                <td><strong>Final Destination:</strong></td>
+                <td>Port Luis (Mauritius)</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>Terms of Delivery and Payment:</strong><br>
+                    <textarea style="height: 80px;">CIF / FOB 100% Irrevocable LC at sight, 30% Advance and 70% irrevocable LC at sight</textarea>
+                </td>
+            </tr>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Marks & Nos./Container No.</th>
+                    <th>No. & Kind of Pkgs</th>
+                    <th>Description of Goods</th>
+                    <th>Quantity (in Pieces)</th>
+                    <th>Price (Per Piece in USD)</th>
+                    <th>Amount (in USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>10 Pens in 1 Packet<br>50 Packets in 1 Box<br>10 Boxes in 1 Carton<br>420 Cartons in 1 20' Container</td>
+                    <td>Blue Ink Pen without Switch</td>
+                    <td>2100000</td>
+                    <td>0.06</td>
+                    <td>12600</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><strong>Insurance</strong></td>
+                    <td></td>
+                    <td>236</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><strong>Freight</strong></td>
+                    <td></td>
+                    <td>3652</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="section">
+            <p><strong>Total Amount (in USD):</strong> $16288</p>
+        </div>
+        <div class="section">
+            <p><strong>Variation Allowed:</strong> +/- 2%</p>
+            <p><strong>Transshipment:</strong> Allowed</p>
+            <p><strong>Partial Shipment:</strong> Allowed</p>
+            <p><strong>LC Expiry Date:</strong> 15th Jan 2025 to 30th Jan 2025</p>
+        </div>
+        <div class="note">
+            <p><strong>Beneficiary:</strong> State Bank of India</p>
+            <p><strong>Account Holder Name:</strong> John Doe</p>
+            <p><strong>Account No:</strong> 1234567890</p>
+            <p><strong>Branch:</strong> Mumbai</p>
+            <p><strong>SWIFT Code:</strong> SBININBBXXX</p>
+        </div>
+        <div class="note">
+            <p><strong>All Bank Charges:</strong> Outside India paid by buyer</p>
+            <p><strong>Third Party Inspection Charges:</strong> Paid by buyer</p>
+        </div>
+        <div class="footer">
+            <p><strong>Declaration:</strong> We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>
+            <p><strong>Authorized Signature</strong></p>
+        </div>
+    </div>
+    <button onclick="downloadPDF()">Download as PDF</button>
+    <script>
+async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const content = document.getElementById("invoiceContent");
+
+    // Use html2canvas to create a canvas from the HTML content
+    await html2canvas(content, {
+        scale: 2, // Improves resolution in the PDF
+    }).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const imgWidth = 190; // Adjust to fit A4 width
+        const pageHeight = 290; // A4 page height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        let position = 10; // Start on the first page
+        doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+
+        // If content overflows, add more pages
+        while (imgHeight + position > pageHeight) {
+            position = position - pageHeight; // Reset position for the new page
+            doc.addPage();
+            doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        }
+
+        // Save the PDF
+        doc.save("ProformaInvoice.pdf");
+    });
+}
+
+    </script>
+</body>
+</html>

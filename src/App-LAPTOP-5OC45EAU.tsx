@@ -33,7 +33,6 @@ import LC from "./pages/LC";
 
 
 const queryClient = new QueryClient();
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -68,9 +67,7 @@ const App = () => (
           <Route path= "quotation-notes" element={<Notes />} />
           <Route path="/quotation-tc" element={<QuotationTC />} />
           <Route path="/commercial-docs" element={<LC />} />
-          
-
-          
+                    
           </Routes>
       </BrowserRouter>
     </TooltipProvider>
