@@ -1,26 +1,24 @@
+# SAAS - Import Export Business 🚢
+
+A SaaS-based platform for managing import and export business operations efficiently.
+
+## 🚀 Features
+- User & Tenant Management
+- Freight & Shipping Management
+- Quotations & Invoices
+- Tracking System for Orders
+- Role-Based Access Control
+
+## 🛠 Tech Stack
+- React,
+-  TypeScript,
+-  TailwindCSS ,
+-  Shad_Cn
 
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## 📦 Installation
+```bash
+git clone https://github.com/sohamsk13/SAAS---Import-Export-Business.git
+cd SAAS---Import-Export-Business
+npm install
 npm run dev
-```
-
-
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
